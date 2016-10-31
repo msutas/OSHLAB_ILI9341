@@ -545,13 +545,27 @@ void OSHLAB_ILI9341::fillRect(int16_t x, int16_t y, int16_t w, int16_t h,
   digitalWrite(_dc, HIGH);
   digitalWrite(_cs, LOW);
 #endif
-
+  #if (__STM32F1__)
+  //use dma fast fills
+    uint8_t linebuff[w*2+1];
+    int cnt = 0;
+    for(int i = 0; i < w; i++){
+      linebuff[cnt]= hi;
+      cnt++;
+      linebuff[cnt]= lo;
+      cnt++;
+    }
+    for(y=h; y>0; y--) {
+        SPI.dmaSend(linebuff, w*2);
+      }
+#else
   for(y=h; y>0; y--) {
     for(x=w; x>0; x--) {
       spiwrite(hi);
       spiwrite(lo);
     }
   }
+#endif
 #if defined(USE_FAST_PINIO)
   *csport |= cspinmask;
 #else
@@ -612,7 +626,6 @@ void OSHLAB_ILI9341::invertDisplay(boolean i) {
   writecommand(i ? ILI9341_INVON : ILI9341_INVOFF);
   if (hwSPI) spi_end();
 }
-
 
 ////////// stuff not actively being used, but kept for posterity
 
