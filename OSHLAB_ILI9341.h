@@ -138,7 +138,7 @@ class OSHLAB_ILI9341 : public Adafruit_GFX {
              uint16_t color),
            setRotation(uint8_t r),
            drawChar(int16_t x, int16_t y, unsigned char c, uint16_t color, uint16_t bg, uint8_t size),
-           invertDisplay(boolean i);
+           invertDisplay(bool i);
   uint16_t color565(uint8_t r, uint8_t g, uint8_t b);
 
   /* These are not for current use, 8-bit protocol only! */
@@ -161,7 +161,7 @@ class OSHLAB_ILI9341 : public Adafruit_GFX {
 
 
 
-  boolean  hwSPI;
+  bool  hwSPI;
 
 #if defined (__AVR__) || defined(TEENSYDUINO)
   uint8_t mySPCR;
@@ -179,7 +179,8 @@ class OSHLAB_ILI9341 : public Adafruit_GFX {
     int32_t  _cs, _dc, _rst, _mosi, _miso, _sclk;
     uint32_t  mosipinmask, clkpinmask, cspinmask, dcpinmask;
 #elif defined (__arm__)
-    volatile RwReg *mosiport, *clkport, *dcport, *rsport, *csport;
+//    volatile RwReg *mosiport, *clkport, *dcport, *rsport, *csport;
+    volatile uint32_t *mosiport, *clkport, *dcport, *rsport, *csport;
     int32_t  _cs, _dc, _rst, _mosi, _miso, _sclk;
     uint32_t  mosipinmask, clkpinmask, cspinmask, dcpinmask;
 #elif defined (ESP8266)

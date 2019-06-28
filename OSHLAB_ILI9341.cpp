@@ -621,7 +621,7 @@ void OSHLAB_ILI9341::setRotation(uint8_t m) {
 }
 
 
-void OSHLAB_ILI9341::invertDisplay(boolean i) {
+void OSHLAB_ILI9341::invertDisplay(bool i) {
   if (hwSPI) spi_begin();
   writecommand(i ? ILI9341_INVON : ILI9341_INVOFF);
   if (hwSPI) spi_end();
